@@ -82,8 +82,12 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
-    <Compile Include="Obstacle.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Physics\BallCollider.cs" />
+    <Compile Include="Physics\Collider.cs" />
+    <Compile Include="Physics\ColliderManager.cs" />
+    <Compile Include="Physics\CollisionInfo.cs" />
+    <Compile Include="Physics\LineSegmentCollider.cs" />
+    <Compile Include="Physics\Vec2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
