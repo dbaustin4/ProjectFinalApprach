@@ -32,8 +32,8 @@ class Level : GameObject
         player = FindObjectOfType<Player>();
         if(player != null ) { AddChild(player); }
 
-        //y = (game.height - 128) - player.y; 
-        //y = 128 - player.y + 250; 
+        //y = (game.height - 128) - player.y;
+        y = 128 - player.y;
         //x = 128 + player.x;
     }
 
@@ -46,6 +46,7 @@ class Level : GameObject
             Scrolling();
         }
     }
+
     void Scrolling()
     {
         int xBoundriesStart = 128;  //The screen boudries for scrolling
