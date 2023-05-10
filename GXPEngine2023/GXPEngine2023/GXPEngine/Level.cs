@@ -24,7 +24,7 @@ class Level : GameObject
 
         loader.addColliders = false;
         loader.LoadImageLayers();
-        loader.LoadTileLayers();
+        loader.LoadTileLayers(); // maybe do this manually
         loader.addColliders = true;
         loader.autoInstance = true;
         loader.LoadObjectGroups();
@@ -32,8 +32,8 @@ class Level : GameObject
         player = FindObjectOfType<Player>();
         if(player != null ) { AddChild(player); }
 
-        //y = (game.height - 128) - player.y; 
-        //y = 128 - player.y + 250; 
+        //y = (game.height - 128) - player.y;
+        y = 128 - player.y;
         //x = 128 + player.x;
     }
 
@@ -46,6 +46,7 @@ class Level : GameObject
             Scrolling();
         }
     }
+
     void Scrolling()
     {
         int xBoundriesStart = 128;  //The screen boudries for scrolling
