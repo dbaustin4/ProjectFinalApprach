@@ -435,6 +435,14 @@ namespace TiledMapParser
 		}
 	}
 
+	[XmlRootAttribute("polygon")]
+	class Polygon
+	{
+		// put stuff here, like points
+		[XmlAttribute("points")]
+		string points; // hint: String.Split for spaces first, then commas, then float.Parse
+	}
+
 	[XmlRootAttribute("object")]
 	public class TiledObject : PropertyContainer {
 		[XmlAttribute("id")]
@@ -472,7 +480,8 @@ namespace TiledMapParser
 		public float Y;
 		[XmlElement("text")]
 		public Text textField;
-		
+		[XmlElement("polygon")]
+		Polygon polygon;
 		/// <summary>
 		/// Call this method to initialize the MirrorX, MirrorY and ImageID fields.
 		/// (The GID value read from the file encodes all of this information.)

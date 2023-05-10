@@ -24,7 +24,7 @@ class Level : GameObject
 
         loader.addColliders = false;
         loader.LoadImageLayers();
-        loader.LoadTileLayers();
+        loader.LoadTileLayers(); // maybe do this manually
         loader.addColliders = true;
         loader.autoInstance = true;
         loader.LoadObjectGroups();
