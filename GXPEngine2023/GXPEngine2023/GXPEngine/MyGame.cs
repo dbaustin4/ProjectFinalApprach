@@ -11,8 +11,6 @@ public class MyGame : Game {
     public string currentLevel;
     //private SoundChannel backgroundMusicSC;
 
-    Level level;
-
     public MyGame() : base(900, 500, false)     
 	{
         LoadLevel(levelToLoad, 0);
@@ -23,7 +21,7 @@ public class MyGame : Game {
 
 	
 	void Update() {
-		
+
 	}
 
     void DestroyAll()
