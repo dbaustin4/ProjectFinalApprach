@@ -89,7 +89,6 @@
   <object id="3" name="Player" type="Player" x="387.03" y="3661.21" width="64" height="64"/>
   <object id="66" type="Box" gid="2" x="989.212" y="3725.94" width="64" height="64"/>
   <object id="67" type="Box" gid="2" x="204.364" y="4153.21" width="64" height="64"/>
-  <object id="68" type="Box" gid="2" x="728.606" y="3734.67" width="64" height="64"/>
   <object id="69" type="Box" gid="2" x="310.424" y="3571.03" width="64" height="64"/>
  </objectgroup>
 </map>
