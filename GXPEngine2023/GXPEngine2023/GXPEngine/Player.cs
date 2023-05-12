@@ -22,7 +22,8 @@ public class Player : AnimationSprite
     float _speed = 4.9994234f;
 
 
-    private bool isGravityFlipped = false;
+    private bool isGravityFlippedY = false;
+    private bool isGravityFlippedX = false;
     float speedY = 0;
     float speedX = 0;
     public Player(TiledObject tiledObjectPlayer = null) : base("barry.png", 7, 1, -1, false, true)
@@ -41,16 +42,39 @@ public class Player : AnimationSprite
 
     void Update()
     {
-        if (Input.GetKeyDown(Key.W))
-        {
-            isGravityFlipped = !isGravityFlipped;
-            MyGame.acceleration *= 1;
-        }
         // do stuff here
         //gravity declarating
         float gravity = MyGame.acceleration;
         velocity.y += gravity;
         velocity.x += gravity;
+
+        //flipping gravity vertically
+        if (Input.GetKeyDown(Key.W))
+        {
+            Console.WriteLine("FLIP");
+            MyGame.acceleration = -Math.Abs(MyGame.acceleration);
+        }
+        else
+        {
+            if (Input.GetKeyDown(Key.S))
+            {
+                isGravityFlippedY = false;
+                MyGame.acceleration = Math.Abs(MyGame.acceleration);
+            }
+        }
+
+        if (Input.GetKeyDown(Key.D))
+        {
+            isGravityFlippedY = false;
+            Console.WriteLine("Right");
+        }
+        else
+        {
+            if (Input.GetKeyDown(Key.A))
+            {
+                Console.WriteLine("Left");
+            }
+        }
         //  do MoveUntilCollision (MUC) in gravity direction -> check if grounded (if needed?!)
         //  
         // Next, do "sideways movement" (acceleration in this direction depends on whether he's grounded, and of course key presses
@@ -97,11 +121,6 @@ public class Player : AnimationSprite
             velocity.x = 0;
         }
 
-        if (Input.GetKey(Key.W))
-        {
-            Console.WriteLine("FLIP");
-            MyGame.acceleration *= -1;
-        }
 
 
         // finally:
