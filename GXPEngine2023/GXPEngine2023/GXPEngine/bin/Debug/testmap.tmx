@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="75" height="75" tilewidth="64" tileheight="64" infinite="0" nextlayerid="12" nextobjectid="70">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="75" height="75" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="74">
  <tileset firstgid="1" name="checkers" tilewidth="64" tileheight="64" spacing="48" tilecount="1" columns="1">
   <image source="checkers.png" width="64" height="64"/>
  </tileset>
@@ -87,8 +87,8 @@
  </layer>
  <objectgroup id="5" name="Player" class="Player" opacity="0.99">
   <object id="3" name="Player" type="Player" x="387.03" y="3661.21" width="64" height="64"/>
-  <object id="66" type="Box" gid="2" x="989.212" y="3725.94" width="64" height="64"/>
-  <object id="67" type="Box" gid="2" x="204.364" y="4153.21" width="64" height="64"/>
-  <object id="69" type="Box" gid="2" x="310.424" y="3571.03" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="12" name="Box" class="Box">
+  <object id="71" type="Box" gid="2" x="256" y="4160" width="64" height="64"/>
  </objectgroup>
 </map>

@@ -17,6 +17,7 @@ public class Box : AnimationSprite
     public void Push(float vx, float vy)
     {
         Console.WriteLine("Box pushed in direction {0},{1}",vx,vy);
+
     }
 
     void Update()

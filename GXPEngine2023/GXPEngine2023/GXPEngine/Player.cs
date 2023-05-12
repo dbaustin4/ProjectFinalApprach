@@ -77,22 +77,82 @@ public class Player : AnimationSprite
             {
                 MyGame.gravityY = -Math.Abs(MyGame.gravityY);
                 MyGame.gravitysideway = false;
+
+                rotation = 180;
+                if (rotation > 180)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 180) rotation = 180;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation > 180) rotation = 180;
+                }
             }
             if (Input.GetKeyDown(Key.DOWN))
             {
                 MyGame.gravityY = Math.Abs(MyGame.gravityY);
                 MyGame.gravitysideway = false;
+
+                rotation = 0;
+                if (rotation > 0 && rotation < 180)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 0 || rotation > 360) rotation = 0;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation < 0 || rotation > 360) rotation = 0;
+                }
             }
             if (Input.GetKeyDown(Key.RIGHT))
             {
                 MyGame.gravityX = Math.Abs(MyGame.gravityX);
                 MyGame.gravitysideway = true;
+
+                rotation = 270;
+                if (rotation > 270 || rotation < 90)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 270) rotation = 270;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation > 270) rotation = 270;
+                }
             }
             if (Input.GetKeyDown(Key.LEFT))
             {
                 MyGame.gravityX = -Math.Abs(MyGame.gravityX);
                 MyGame.gravitysideway = true;
+
+                rotation = 90;
+                if (rotation > 90)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 90) rotation = 90;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation > 90) rotation = 90;
+                }
             }
+
+            if (rotation < 0) rotation = 360 + rotation;
+            if (rotation > 360) rotation = rotation - 360;
+        
 
 
             //movement
@@ -126,6 +186,7 @@ public class Player : AnimationSprite
         {
             velocity.x = 0;
         }
+
         // finally:
         //UpdateScreenPosition();
 
