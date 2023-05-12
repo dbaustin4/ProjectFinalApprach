@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TiledMapParser;
 using Physics;
+using System.Drawing;
 
 public class Player : AnimationSprite
 {
@@ -21,6 +22,9 @@ public class Player : AnimationSprite
     //Vec2 _position;
     float _speed = 4.9994234f;
 
+
+    private bool xFlip = false;
+    private bool yFlip = false;
 
     private bool isGravityFlippedY = false;
     private bool isGravityFlippedX = false;
@@ -52,12 +56,14 @@ public class Player : AnimationSprite
         if (Input.GetKeyDown(Key.W))
         {
             Console.WriteLine("FLIP");
+            yFlip = true;
             MyGame.acceleration = -Math.Abs(MyGame.acceleration);
         }
         else
         {
             if (Input.GetKeyDown(Key.S))
             {
+                yFlip = false;
                 isGravityFlippedY = false;
                 MyGame.acceleration = Math.Abs(MyGame.acceleration);
             }
@@ -100,13 +106,15 @@ public class Player : AnimationSprite
             velocity.x = 0; // this is not really Euler integration/physics movement...
             if (Input.GetKey(Key.LEFT))
             {
-                velocity.x = -_speed; 
+                xFlip = true;
+                velocity.x = -_speed;
             }
             if (Input.GetKey(Key.RIGHT))
             {
+                xFlip = false;
                 velocity.x = _speed;
             }
-            Console.WriteLine("Velocity: "+velocity);
+            //Console.WriteLine("Velocity: "+velocity);
             collision = MoveUntilCollision(velocity.x, 0); // move perpendicular to gravity
 
 
@@ -116,12 +124,13 @@ public class Player : AnimationSprite
                 Box pushee = (Box)collision.other;
                 pushee.Push(velocity.x, 0);
             }
-        } else
+        } 
+        else
         {
             velocity.x = 0;
         }
 
-
+        Mirror(xFlip, yFlip);
 
         // finally:
         //UpdateScreenPosition();

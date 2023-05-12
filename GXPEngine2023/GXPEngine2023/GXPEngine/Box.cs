@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TiledMapParser;
 using GXPEngine;
+using GXPEngine.Core;
+using System.Runtime.InteropServices;
 
 public class Box : AnimationSprite
 {
@@ -15,7 +17,8 @@ public class Box : AnimationSprite
 
     public void Push(float vx, float vy)
     {
-        Console.WriteLine("Box pushed in direction {0},{1}",vx,vy);
+        if (vx != 0) MoveUntilCollision(vx, 0);
+        else MoveUntilCollision(0, vy);
     }
 
     void Update()
@@ -23,10 +26,7 @@ public class Box : AnimationSprite
         float gravity = MyGame.acceleration;
         // TODO: Get gravity direction... Use gravity (acceleration)
         // For now:
-
         var collision = MoveUntilCollision(0, gravity);
-    }
-
-    
+    }    
 }
 
