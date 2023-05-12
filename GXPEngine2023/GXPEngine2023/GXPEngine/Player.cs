@@ -1,4 +1,5 @@
 ﻿using GXPEngine;
+using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,41 +10,141 @@ using Physics;
 
 public class Player : AnimationSprite
 {
-    public Vec2 position
-    {
-        get
-        {
-            return _position;
-        }
-    }
+    //public Vec2 position
+    //{
+    //    get
+    //    {
+    //        return _position;
+    //    }
+    //}
     public Vec2 velocity;
-    Vec2 _position;
-    float _speed = 10;
+    //Vec2 _position;
+    float _speed = 4.9994234f;
 
-    //gravity direction bools
-    bool bottomGravity = false;
-    bool topGravity = false;
-    bool rightGravity;
-    bool leftGravity;
 
-    //bool[4] gravity = new bool { false, false, false, false }
-
+    private bool isGravityFlipped = false;
     float speedY = 0;
     float speedX = 0;
-    //bool normalGravity = true;
-    public Player(TiledObject tiledObjectPlayer = null) : base("barry.png", 7, 1, -1, false, false)
+    public Player(TiledObject tiledObjectPlayer = null) : base("barry.png", 7, 1, -1, false, true)
     {
         if (tiledObjectPlayer != null)
         {
-            _position.x = tiledObjectPlayer.X + 32;
-            _position.y = tiledObjectPlayer.Y + 32;
+            //_position.x = tiledObjectPlayer.X + 32;
+            //_position.y = tiledObjectPlayer.Y + 32;
         }
         SetCycle(0, 3);
-        _position.RotateDegree(0);
-        bottomGravity = true;
+        //bottomGravity = true;
+
+        collider.isTrigger = true;
+
     }
 
     void Update()
+    {
+        if (Input.GetKeyDown(Key.W))
+        {
+            isGravityFlipped = !isGravityFlipped;
+            MyGame.acceleration *= 1;
+        }
+        // do stuff here
+        //gravity declarating
+        float gravity = MyGame.acceleration;
+        velocity.y += gravity;
+        velocity.x += gravity;
+        //  do MoveUntilCollision (MUC) in gravity direction -> check if grounded (if needed?!)
+        //  
+        // Next, do "sideways movement" (acceleration in this direction depends on whether he's grounded, and of course key presses
+
+
+        // example of box interaction, just for downwards gravity:
+        //float acceleration = 0.4f; // store in MyGame as well?
+        //velocity.y += acceleration;
+        //this brings the player down
+        var collision = MoveUntilCollision(0, velocity.y);
+        bool grounded = false;
+
+        //not touching anything, could be mid air most probably and jumping down
+        if (collision != null)
+        {
+            grounded = true;
+            velocity.y = 0;
+            y = Mathf.Round(y);
+        }
+
+        if (grounded)
+        {
+            velocity.x = 0; // this is not really Euler integration/physics movement...
+            if (Input.GetKey(Key.LEFT))
+            {
+                velocity.x = -_speed; 
+            }
+            if (Input.GetKey(Key.RIGHT))
+            {
+                velocity.x = _speed;
+            }
+            Console.WriteLine("Velocity: "+velocity);
+            collision = MoveUntilCollision(velocity.x, 0); // move perpendicular to gravity
+
+
+
+            if (collision !=null && collision.other is Box)
+            {
+                Box pushee = (Box)collision.other;
+                pushee.Push(velocity.x, 0);
+            }
+        } else
+        {
+            velocity.x = 0;
+        }
+
+        if (Input.GetKey(Key.W))
+        {
+            Console.WriteLine("FLIP");
+            MyGame.acceleration *= -1;
+        }
+
+
+        // finally:
+        //UpdateScreenPosition();
+    }
+
+    void UpdateScreenPosition()
+    {
+        // This is the ONLY bit of code that modifies x and y!
+        //x = _position.x;
+        //y = _position.y;
+    }
+
+    // For efficiency, we put this in player:
+    void OnCollision(GameObject other)
+    {
+        if (other is Box)
+        {
+            // Might give false positives because of floating point errors!
+            Console.WriteLine("Dead!");
+        }
+    }
+
+    /*
+    void Update()
+    {
+        Collision c = MoveUntilCollision(1, 1);
+        if (c == null)
+        {
+            x--;
+            y--;
+            SwitchGravity(null);
+        }
+        else
+        {
+            PlayerMovement();
+            Movement();
+            SwitchGravity(c.other);
+        }
+        Movement();
+    }
+
+    private void PlayerMovement()
     {
         // Player movement
         velocity.x = 0;
@@ -68,45 +169,47 @@ public class Player : AnimationSprite
 
         _position.x += velocity.x;
         _position.y += velocity.y;
-        Movement();
+
+        
+    }
+
+    private void SwitchGravity(GameObject overlap)
+    {
+        float gravityForce = 0.5f;
 
         // Change gravity direction based on input
-        if (Input.GetKey(Key.W))
+        if (Input.GetKey(Key.W) && !topGravity)
         {
             bottomGravity = false;
             topGravity = true;
             rightGravity = false;
             leftGravity = false;
+            y--;
         }
-        else if (Input.GetKey(Key.S))
+        else if (Input.GetKey(Key.S) && !bottomGravity)
         {
             bottomGravity = true;
             topGravity = false;
             rightGravity = false;
             leftGravity = false;
+            y++;
         }
-        else if (Input.GetKey(Key.D))
+        else if (Input.GetKey(Key.D) && !rightGravity)
         {
             bottomGravity = false;
             topGravity = false;
             rightGravity = true;
             leftGravity = false;
+            x++;
         }
-        else if (Input.GetKey(Key.A))
+        else if (Input.GetKey(Key.A) && !leftGravity)
         {
             bottomGravity = false;
             topGravity = false;
             rightGravity = false;
             leftGravity = true;
+            x--;
         }
-
-        SwitchGravity();
-
-    }
-
-    private void SwitchGravity()
-    {
-        float gravityForce = 0.5f;
 
         if (bottomGravity)
         {
@@ -114,9 +217,18 @@ public class Player : AnimationSprite
             topGravity = false;
             rightGravity = false;
             leftGravity = false;
-            speedY += gravityForce;
-            y += speedY;
-            speedX = 0;
+
+            if (overlap == null)
+            {
+                speedY += gravityForce;
+                y += speedY;
+                speedX = 0;
+            }
+            else
+            {
+                speedY = 0;
+                rotation = 0;
+            }
 
             if (rotation > 0 && rotation < 180)
             {
@@ -130,13 +242,6 @@ public class Player : AnimationSprite
 
                 if(rotation < 0 || rotation > 360) rotation = 0;
             }
-
-            if (y > 4200 - height)
-            {
-                y = 4200 - height;
-                speedY = 0;
-                rotation = 0;
-            }
         }
         else if (topGravity)
         {
@@ -144,9 +249,18 @@ public class Player : AnimationSprite
             bottomGravity = false;
             rightGravity = false;
             leftGravity = false;
-            speedY -= gravityForce;
-            y += speedY;
-            speedX = 0;
+            
+            if (overlap == null)
+            {
+                speedY -= gravityForce;
+                y += speedY;
+                speedX = 0;
+            }
+            else
+            {
+                speedY = 0;
+                rotation = 180;
+            }
 
             if (rotation > 180)
             {
@@ -160,13 +274,6 @@ public class Player : AnimationSprite
 
                 if (rotation > 180) rotation = 180;
             }
-
-            if (y < 3700)
-            {
-                y = 3700;
-                speedY = 0;
-                rotation = 180;
-            }
         }
         else if (rightGravity)
         {
@@ -174,9 +281,18 @@ public class Player : AnimationSprite
             bottomGravity = false;
             topGravity = false;
             leftGravity = false;
-            speedX += gravityForce;
-            x += speedX;
-            speedY = 0;
+
+            if (overlap == null)
+            {
+                speedX += gravityForce;
+                x += speedX;
+                speedY = 0;
+            }
+            else
+            {
+                speedX = 0;
+                rotation = 270;
+            }
 
             if (rotation > 270 || rotation < 90)
             {
@@ -190,13 +306,6 @@ public class Player : AnimationSprite
 
                 if (rotation > 270) rotation = 270;
             }
-
-            if (x > 960 - width)
-            {
-                x = 960 - width;
-                speedX = 0;
-                rotation = 270;
-            }
         }
         else if (leftGravity)
         {
@@ -204,9 +313,18 @@ public class Player : AnimationSprite
             bottomGravity = false;
             topGravity = false;
             rightGravity = false;
-            speedX -= gravityForce;
-            x += speedX;
-            speedY = 0;
+
+            if (overlap == null)
+            {
+                speedX += gravityForce;
+                x += speedX;
+                speedY = 0;
+            }
+            else
+            {
+                speedX = 0;
+                rotation = 90;
+            }
 
             if (rotation > 90)
             {
@@ -219,13 +337,6 @@ public class Player : AnimationSprite
                 rotation += 5;
 
                 if (rotation > 90) rotation = 90;
-            }
-
-            if (x < 128)
-            {
-                x = 128;
-                speedX = 0;
-                rotation = 90;
             }
         }
 
@@ -244,12 +355,6 @@ public class Player : AnimationSprite
             y = _position.y;
         }
     }
+    */
 
-    void MoveUntilCollision(GameObject other)
-    {   
-        if(other is Box)
-        {
-            Console.WriteLine("touching boundary");
-        }
-    }
 }

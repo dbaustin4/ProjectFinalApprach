@@ -21,16 +21,16 @@ class Level : GameObject
     void CreateLevel(bool IncludeImageLayer = true)
     {
         loader.rootObject = this;
-
-        loader.addColliders = false;
+        loader.addColliders = true;
         loader.LoadImageLayers();
         loader.LoadTileLayers(); // maybe do this manually
-        loader.addColliders = true;
         loader.autoInstance = true;
         loader.LoadObjectGroups();
 
         player = FindObjectOfType<Player>();
         if(player != null ) { AddChild(player); }
+
+
 
         //y = (game.height - 128) - player.y;
         y = 128 - player.y;
