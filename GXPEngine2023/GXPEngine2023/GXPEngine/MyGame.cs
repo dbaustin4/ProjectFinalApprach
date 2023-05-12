@@ -9,7 +9,9 @@ public class MyGame : Game {
 
     string levelToLoad = "testmap.tmx";
     public string currentLevel;
-    internal static float acceleration = 0.8f;
+    internal static bool gravitysideway = false;
+    internal static float gravityY = 9.8f;
+    internal static float gravityX = 9.8f;
 
     //private SoundChannel backgroundMusicSC;
 

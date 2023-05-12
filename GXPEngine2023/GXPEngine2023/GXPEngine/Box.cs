@@ -23,10 +23,16 @@ public class Box : AnimationSprite
 
     void Update()
     {
-        float gravity = MyGame.acceleration;
+        float gravityY = MyGame.gravityY;
+        float gravityX = MyGame.gravityX;
         // TODO: Get gravity direction... Use gravity (acceleration)
         // For now:
-        var collision = MoveUntilCollision(0, gravity);
-    }    
+
+        Collision collision = null;
+        if (MyGame.gravitysideway) collision = MoveUntilCollision(gravityX, 0);
+        else collision = MoveUntilCollision(0, gravityY);
+    }
+
+    
 }
 
