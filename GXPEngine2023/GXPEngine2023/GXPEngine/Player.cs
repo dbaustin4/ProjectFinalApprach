@@ -73,25 +73,23 @@ public class Player : AnimationSprite
 
         if (grounded)
         {
-            if (Input.GetKeyDown(Key.W))
+            if (Input.GetKeyDown(Key.UP))
             {
                 MyGame.gravityY = -Math.Abs(MyGame.gravityY);
                 MyGame.gravitysideway = false;
             }
-            if (Input.GetKeyDown(Key.S))
+            if (Input.GetKeyDown(Key.DOWN))
             {
                 MyGame.gravityY = Math.Abs(MyGame.gravityY);
                 MyGame.gravitysideway = false;
             }
-            if (Input.GetKeyDown(Key.D))
+            if (Input.GetKeyDown(Key.RIGHT))
             {
-                Console.WriteLine("Right");
                 MyGame.gravityX = Math.Abs(MyGame.gravityX);
                 MyGame.gravitysideway = true;
             }
-            if (Input.GetKeyDown(Key.A))
+            if (Input.GetKeyDown(Key.LEFT))
             {
-                Console.WriteLine("Left");
                 MyGame.gravityX = -Math.Abs(MyGame.gravityX);
                 MyGame.gravitysideway = true;
             }
@@ -99,19 +97,19 @@ public class Player : AnimationSprite
 
             //movement
             velocity.x = 0; // this is not really Euler integration/physics movement...
-            if (Input.GetKey(Key.LEFT))
+            if (Input.GetKey(Key.A))
             {
                 velocity.x = -_speed;
             }
-            if (Input.GetKey(Key.RIGHT))
+            if (Input.GetKey(Key.D))
             {
                 velocity.x = _speed;
             }
-            if (Input.GetKey(Key.UP))
+            if (Input.GetKey(Key.W))
             {
                 velocity.y -= _speed;
             }
-            if (Input.GetKey(Key.DOWN))
+            if (Input.GetKey(Key.S))
             {
                 velocity.y -= -_speed;
             }
