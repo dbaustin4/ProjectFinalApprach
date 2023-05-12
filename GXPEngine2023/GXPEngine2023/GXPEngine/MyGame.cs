@@ -9,6 +9,8 @@ public class MyGame : Game {
 
     string levelToLoad = "testmap.tmx";
     public string currentLevel;
+    internal static float acceleration = 0.8f;
+
     //private SoundChannel backgroundMusicSC;
 
     public MyGame() : base(900, 500, false)     
