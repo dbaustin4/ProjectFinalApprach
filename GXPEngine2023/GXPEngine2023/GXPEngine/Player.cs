@@ -78,47 +78,105 @@ public class Player : AnimationSprite
 
         if (grounded)
         {
-            if (Input.GetKeyDown(Key.W))
+            if (Input.GetKeyDown(Key.UP))
             {
                 MyGame.gravityY = -Math.Abs(MyGame.gravityY);
                 MyGame.gravitysideway = false;
+
+                rotation = 180;
+                if (rotation > 180)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 180) rotation = 180;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation > 180) rotation = 180;
+                }
             }
-            if (Input.GetKeyDown(Key.S))
+            if (Input.GetKeyDown(Key.DOWN))
             {
                 MyGame.gravityY = Math.Abs(MyGame.gravityY);
                 MyGame.gravitysideway = false;
+
+                rotation = 0;
+                if (rotation > 0 && rotation < 180)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 0 || rotation > 360) rotation = 0;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation < 0 || rotation > 360) rotation = 0;
+                }
             }
-            if (Input.GetKeyDown(Key.D))
+            if (Input.GetKeyDown(Key.RIGHT))
             {
-                Console.WriteLine("Right");
                 MyGame.gravityX = Math.Abs(MyGame.gravityX);
                 MyGame.gravitysideway = true;
+
+                rotation = 270;
+                if (rotation > 270 || rotation < 90)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 270) rotation = 270;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation > 270) rotation = 270;
+                }
             }
-            if (Input.GetKeyDown(Key.A))
+            if (Input.GetKeyDown(Key.LEFT))
             {
-                Console.WriteLine("Left");
                 MyGame.gravityX = -Math.Abs(MyGame.gravityX);
                 MyGame.gravitysideway = true;
+
+                rotation = 90;
+                if (rotation > 90)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 90) rotation = 90;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation > 90) rotation = 90;
+                }
             }
+
+            if (rotation < 0) rotation = 360 + rotation;
+            if (rotation > 360) rotation = rotation - 360;
+        
 
 
             //movement
             velocity.x = 0; // this is not really Euler integration/physics movement...
-            if (Input.GetKey(Key.LEFT))
+            if (Input.GetKey(Key.A))
             {
                 xFlip = true;
                 velocity.x = -_speed;
             }
-            if (Input.GetKey(Key.RIGHT))
+            if (Input.GetKey(Key.D))
             {
                 xFlip = false;
                 velocity.x = _speed;
             }
-            if (Input.GetKey(Key.UP))
+            if (Input.GetKey(Key.W))
             {
                 velocity.y -= _speed;
             }
-            if (Input.GetKey(Key.DOWN))
+            if (Input.GetKey(Key.S))
             {
                 velocity.y -= -_speed;
             }
@@ -135,6 +193,9 @@ public class Player : AnimationSprite
         {
             velocity.x = 0;
         }
+
+        // finally:
+        //UpdateScreenPosition();
 
         Mirror(xFlip, yFlip);
 
