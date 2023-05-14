@@ -7,11 +7,12 @@ using System.Security.AccessControl;
 
 public class MyGame : Game {
 
-    string levelToLoad = "testmap.tmx";
+    internal static string levelToLoad = "testmap.tmx";
     public string currentLevel;
     internal static bool gravitysideway = false;
     internal static float gravityY = 9.8f;
     internal static float gravityX = 9.8f;
+    internal static bool levelComplete = false;
 
     //private SoundChannel backgroundMusicSC;
 
@@ -24,9 +25,14 @@ public class MyGame : Game {
 	}
 
 	
-	void Update() {
-
-	}
+	void Update()
+    {
+        if (levelComplete)
+        {
+            LoadLevel(levelToLoad, 0);
+            OnAfterStep += CheckLoadLevel;
+        }
+    }
 
     void DestroyAll()
     {
