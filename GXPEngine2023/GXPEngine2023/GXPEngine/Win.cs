@@ -11,7 +11,7 @@ public class Win : AnimationSprite
 {
     private int level = 1;
 
-    public Win(TiledObject winObject) : base("barry.png", 7, 1, -1, false, false)
+    public Win(TiledObject winObject) : base("barry.png", 7, 1, -1, false, true)
     {
     }
 
@@ -29,5 +29,6 @@ public class Win : AnimationSprite
         MyGame.levelToLoad = "Main_Menu.tmx";
 
         MyGame.levelComplete = true;
+        Console.WriteLine("DONE");
     }
 }

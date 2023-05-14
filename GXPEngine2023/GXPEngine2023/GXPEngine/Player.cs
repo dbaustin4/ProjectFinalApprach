@@ -39,7 +39,6 @@ public class Player : AnimationSprite
         }
         SetCycle(0, 3);
 
-        collider.isTrigger = true;
 
     }
 
@@ -47,8 +46,12 @@ public class Player : AnimationSprite
     {
         // do stuff here
         //gravity declarating
-        float gravityY = MyGame.gravityY;
-        float gravityX = MyGame.gravityX;
+
+        float gravityX = 0;
+        float gravityY = 0;
+
+        if (!MyGame.gravitysideway) gravityY = MyGame.gravityY;
+        else gravityX = MyGame.gravityX;
 
         velocity.y += MyGame.gravityY;
         velocity.x += MyGame.gravityX;
@@ -64,9 +67,7 @@ public class Player : AnimationSprite
         //float acceleration = 0.4f; // store in MyGame as well?
         //velocity.y += acceleration;
         //this brings the player down
-        Collision collision = null;
-        if (MyGame.gravitysideway) collision = MoveUntilCollision(gravityX, 0);
-        else collision = MoveUntilCollision(0, gravityY);
+        Collision collision = MoveUntilCollision(gravityX, gravityY);
 
         //not touching anything, could be mid air most probably and jumping down
         if (collision != null)
@@ -74,130 +75,130 @@ public class Player : AnimationSprite
             grounded = true;
             velocity.y = 0;
             y = Mathf.Round(y);
+            if (!MyGame.death) Alive(collision);
+        }
+    }
+
+    void Alive(Collision collision)
+    {
+        if (Input.GetKeyDown(Key.UP))
+        {
+            MyGame.gravityY = -Math.Abs(MyGame.gravityY);
+            MyGame.gravitysideway = false;
+            gravityFlipReverse = true;
+
+            rotation = 180;
+            if (rotation > 180)
+            {
+                rotation -= 5;
+
+                if (rotation < 180) rotation = 180;
+            }
+            else
+            {
+                rotation += 5;
+
+                if (rotation > 180) rotation = 180;
+            }
+        }
+        if (Input.GetKeyDown(Key.DOWN))
+        {
+            MyGame.gravityY = Math.Abs(MyGame.gravityY);
+            MyGame.gravitysideway = false;
+            gravityFlipReverse = false;
+
+            rotation = 0;
+            if (rotation > 0 && rotation < 180)
+            {
+                rotation -= 5;
+
+                if (rotation < 0 || rotation > 360) rotation = 0;
+            }
+            else
+            {
+                rotation += 5;
+
+                if (rotation < 0 || rotation > 360) rotation = 0;
+            }
+        }
+        if (Input.GetKeyDown(Key.RIGHT))
+        {
+            MyGame.gravityX = Math.Abs(MyGame.gravityX);
+            MyGame.gravitysideway = true;
+            gravityFlipReverse = false;
+
+            rotation = 270;
+            if (rotation > 270 || rotation < 90)
+            {
+                rotation -= 5;
+
+                if (rotation < 270) rotation = 270;
+            }
+            else
+            {
+                rotation += 5;
+
+                if (rotation > 270) rotation = 270;
+            }
+        }
+        if (Input.GetKeyDown(Key.LEFT))
+        {
+            MyGame.gravityX = -Math.Abs(MyGame.gravityX);
+            MyGame.gravitysideway = true;
+            gravityFlipReverse = true;
+
+            rotation = 90;
+            if (rotation > 90)
+            {
+                rotation -= 5;
+
+                if (rotation < 90) rotation = 90;
+            }
+            else
+            {
+                rotation += 5;
+
+                if (rotation > 90) rotation = 90;
+            }
         }
 
-        if (grounded)
+        if (rotation < 0) rotation = 360 + rotation;
+        if (rotation > 360) rotation = rotation - 360;
+
+
+
+        //movement
+        velocity.x = 0; // this is not really Euler integration/physics movement...
+        if (Input.GetKey(Key.A) && !MyGame.gravitysideway)
         {
-            if (Input.GetKeyDown(Key.UP))
-            {
-                MyGame.gravityY = -Math.Abs(MyGame.gravityY);
-                MyGame.gravitysideway = false;
-                gravityFlipReverse = true;
+            velocity.x = -_speed;
+            if (gravityFlipReverse) xFlip = false;
+            else xFlip = true;
+        }
+        if (Input.GetKey(Key.D) && !MyGame.gravitysideway)
+        {
+            velocity.x = _speed;
+            if (gravityFlipReverse) xFlip = true;
+            else xFlip = false;
+        }
+        if (Input.GetKey(Key.W) && MyGame.gravitysideway)
+        {
+            velocity.y -= _speed;
+            if (gravityFlipReverse) xFlip = true;
+            else xFlip = false;
+        }
+        if (Input.GetKey(Key.S) && MyGame.gravitysideway)
+        {
+            velocity.y -= -_speed;
+            if (gravityFlipReverse) xFlip = false;
+            else xFlip = true;
+        }
+        if (!MyGame.gravitysideway) collision = MoveUntilCollision(velocity.x, 0); // move perpendicular to gravity
+        collision = MoveUntilCollision(0, velocity.y); // same shit
 
-                rotation = 180;
-                if (rotation > 180)
-                {
-                    rotation -= 5;
-
-                    if (rotation < 180) rotation = 180;
-                }
-                else
-                {
-                    rotation += 5;
-
-                    if (rotation > 180) rotation = 180;
-                }
-            }
-            if (Input.GetKeyDown(Key.DOWN))
-            {
-                MyGame.gravityY = Math.Abs(MyGame.gravityY);
-                MyGame.gravitysideway = false;
-                gravityFlipReverse = false;
-
-                rotation = 0;
-                if (rotation > 0 && rotation < 180)
-                {
-                    rotation -= 5;
-
-                    if (rotation < 0 || rotation > 360) rotation = 0;
-                }
-                else
-                {
-                    rotation += 5;
-
-                    if (rotation < 0 || rotation > 360) rotation = 0;
-                }
-            }
-            if (Input.GetKeyDown(Key.RIGHT))
-            {
-                MyGame.gravityX = Math.Abs(MyGame.gravityX);
-                MyGame.gravitysideway = true;
-                gravityFlipReverse = false;
-
-                rotation = 270;
-                if (rotation > 270 || rotation < 90)
-                {
-                    rotation -= 5;
-
-                    if (rotation < 270) rotation = 270;
-                }
-                else
-                {
-                    rotation += 5;
-
-                    if (rotation > 270) rotation = 270;
-                }
-            }
-            if (Input.GetKeyDown(Key.LEFT))
-            {
-                MyGame.gravityX = -Math.Abs(MyGame.gravityX);
-                MyGame.gravitysideway = true;
-                gravityFlipReverse = true;
-
-                rotation = 90;
-                if (rotation > 90)
-                {
-                    rotation -= 5;
-
-                    if (rotation < 90) rotation = 90;
-                }
-                else
-                {
-                    rotation += 5;
-
-                    if (rotation > 90) rotation = 90;
-                }
-            }
-
-            if (rotation < 0) rotation = 360 + rotation;
-            if (rotation > 360) rotation = rotation - 360;
-        
-
-
-            //movement
-            velocity.x = 0; // this is not really Euler integration/physics movement...
-            if (Input.GetKey(Key.A) && !MyGame.gravitysideway)
-            {
-                velocity.x = -_speed;
-                if (gravityFlipReverse) xFlip = false;
-                else xFlip = true;
-            }
-            if (Input.GetKey(Key.D) && !MyGame.gravitysideway)
-            {
-                velocity.x = _speed;
-                if (gravityFlipReverse) xFlip = true;
-                else xFlip = false;
-            }
-            if (Input.GetKey(Key.W) && MyGame.gravitysideway)
-            {
-                velocity.y -= _speed;
-                if (gravityFlipReverse) xFlip = true;
-                else xFlip = false;
-            }
-            if (Input.GetKey(Key.S) && MyGame.gravitysideway)
-            {
-                velocity.y -= -_speed;
-                if (gravityFlipReverse) xFlip = false;
-                else xFlip = true;
-            }
-            collision = MoveUntilCollision(velocity.x, 0); // move perpendicular to gravity
-            collision = MoveUntilCollision(0, velocity.y); // same shit
-
-            if (collision != null && collision.other is Box)
-            {
-                Box pushee = (Box)collision.other;
-                pushee.Push(velocity.x, 0);
-            }
+        if (collision != null)
+        {
+            OnCollision(collision.other);
         }
         else
         {
@@ -208,23 +209,29 @@ public class Player : AnimationSprite
         //UpdateScreenPosition();
 
         Mirror(xFlip, yFlip);
+    }
 
+    void UpdateScreenPosition()
+    {
+        // This is the ONLY bit of code that modifies x and y!
+        //x = _position.x;
+        //y = _position.y;
+    }
 
-        void UpdateScreenPosition()
+    // For efficiency, we put this in player:
+    void OnCollision(GameObject other)
+    {
+        if (other is Box)
         {
-            // This is the ONLY bit of code that modifies x and y!
-            //x = _position.x;
-            //y = _position.y;
+            // Might give false positives because of floating point errors!
+            Box pushee = (Box)other;
+            pushee.Push(velocity.x, velocity.y);
+
         }
-
-        // For efficiency, we put this in player:
-        void OnCollision(GameObject other)
+        if (other is Win)
         {
-            if (other is Box)
-            {
-                // Might give false positives because of floating point errors!
-                Console.WriteLine("Dead!");
-            }
+            Win win = (Win)other;
+            win.WinLevel();
         }
     }
 }

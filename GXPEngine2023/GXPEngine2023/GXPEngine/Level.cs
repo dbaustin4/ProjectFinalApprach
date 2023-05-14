@@ -28,12 +28,15 @@ class Level : GameObject
         loader.LoadObjectGroups();
 
         player = FindObjectOfType<Player>();
-        if(player != null ) { AddChild(player); }
+        if(player != null) 
+        { 
+            AddChild(player);
+            y = 128 - player.y;
+        }
 
 
 
         //y = (game.height - 128) - player.y;
-        y = 128 - player.y;
         //x = 128 + player.x;
     }
 

@@ -10,10 +10,12 @@ using System.Runtime.InteropServices;
 
 public class Box : AnimationSprite
 {
-    public Box(string filename, int cols, int rows, TiledObject obj) : base(filename, cols, rows)
+    public Box(string filename, int cols, int rows, TiledObject obj) : base(filename, cols, rows, -1, false, true)
     {
 
     }
+
+    private int squishSpeed = 5;
 
     public void Push(float vx, float vy)
     {
@@ -23,14 +25,23 @@ public class Box : AnimationSprite
 
     void Update()
     {
-        float gravityY = MyGame.gravityY;
-        float gravityX = MyGame.gravityX;
+        float gravityX = 0;
+        float gravityY = 0;
+        if (!MyGame.gravitysideway) gravityY = MyGame.gravityY;
+        else gravityX = MyGame.gravityX;
         // TODO: Get gravity direction... Use gravity (acceleration)
         // For now:
 
-        Collision collision = null;
-        if (MyGame.gravitysideway) collision = MoveUntilCollision(gravityX, 0);
-        else collision = MoveUntilCollision(0, gravityY);
+        Collision collision = MoveUntilCollision(gravityX, gravityY);
+        if (collision != null && collision.other is Player)
+        {
+            MyGame.death = true;
+            Player player = (Player)collision.other;
+            player.height -= squishSpeed;
+
+            if (player.height < squishSpeed) MyGame.restart = true;
+            Console.WriteLine(player.height);
+        }
     }
 
     

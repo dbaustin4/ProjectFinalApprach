@@ -4,6 +4,7 @@ using System.Drawing;                           // System.Drawing contains drawi
 using System.Reflection.Emit;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using System.Deployment.Internal;
 
 public class MyGame : Game {
 
@@ -13,10 +14,12 @@ public class MyGame : Game {
     internal static float gravityY = 9.8f;
     internal static float gravityX = 9.8f;
     internal static bool levelComplete = false;
+    internal static bool death = false;
+    internal static bool restart = false;
 
     //private SoundChannel backgroundMusicSC;
 
-    public MyGame() : base(1920, 1080, true)     
+    public MyGame() : base(1920, 1080, false)     
 	{
         LoadLevel(levelToLoad, 0);
         OnAfterStep += CheckLoadLevel;
@@ -31,6 +34,10 @@ public class MyGame : Game {
         {
             LoadLevel(levelToLoad, 0);
             OnAfterStep += CheckLoadLevel;
+        }
+        if (restart)
+        {
+            ResetCurrentLevel();
         }
     }
 
@@ -65,8 +72,14 @@ public class MyGame : Game {
         //Sound backgroundMusic = new Sound("ping");
         //backgroundMusicSC = backgroundMusic.Play(false, 0, 0.5f, 0);
         levelToLoad = filename;
-        currentLevel = filename;
-    }
+        currentLevel = filename; 
+        gravitysideway = false;
+        gravityY = 9.8f;
+        gravityX = 9.8f;
+        levelComplete = false;
+        death = false;
+        restart = false;
+}
 
     public void ResetCurrentLevel(int currentLevelSoundTrack = 1)
     {
@@ -78,6 +91,12 @@ public class MyGame : Game {
         //    backgroundMusicSC.Stop(); 
         //Sound backgroundMusic = new Sound("ping");
         //backgroundMusicSC = backgroundMusic.Play(false, 0, 0.5f, 0);
+        gravitysideway = false;
+        gravityY = 9.8f;
+        gravityX = 9.8f;
+        levelComplete = false;
+        death = false;
+        restart = false;
     }
 
     static void Main()                          
