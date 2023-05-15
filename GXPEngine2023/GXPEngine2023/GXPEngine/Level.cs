@@ -8,6 +8,8 @@ class Level : GameObject
     public static float cameraX;
     public static float cameraWidth;
 
+    private List<Button> buttons = new List<Button>();
+    private bool allButtonsPressed = false;
 
     Player player;
     TiledLoader loader;
@@ -29,6 +31,8 @@ class Level : GameObject
 
         player = FindObjectOfType<Player>();
         if(player != null ) { AddChild(player); }
+
+
 
 
 

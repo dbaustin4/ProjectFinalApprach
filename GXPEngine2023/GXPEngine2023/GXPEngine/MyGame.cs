@@ -15,7 +15,7 @@ public class MyGame : Game {
 
     //private SoundChannel backgroundMusicSC;
 
-    public MyGame() : base(1920, 1080, true)     
+    public MyGame() : base(1080, 720, false)     
 	{
         LoadLevel(levelToLoad, 0);
         OnAfterStep += CheckLoadLevel;

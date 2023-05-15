@@ -26,10 +26,10 @@ public class Player : AnimationSprite
     private bool xFlip = false;
     private bool yFlip = false;
 
-    private bool isGravityFlippedY = false;
-    private bool isGravityFlippedX = false;
-    float speedY = 0;
-    float speedX = 0;
+    //private bool isGravityFlippedY = false;
+    //private bool isGravityFlippedX = false;
+    ////float speedY = 0;
+    ////float speedX = 0;
     public Player(TiledObject tiledObjectPlayer = null) : base("barry.png", 7, 1, -1, false, true)
     {
         if (tiledObjectPlayer != null)
@@ -38,8 +38,6 @@ public class Player : AnimationSprite
             //_position.y = tiledObjectPlayer.Y + 32;
         }
         SetCycle(0, 3);
-
-        collider.isTrigger = true;
 
     }
 
@@ -55,14 +53,8 @@ public class Player : AnimationSprite
 
         bool grounded = false;
 
-        //  do MoveUntilCollision (MUC) in gravity direction -> check if grounded (if needed?!)
-        //  
-        // Next, do "sideways movement" (acceleration in this direction depends on whether he's grounded, and of course key presses
-
 
         // example of box interaction, just for downwards gravity:
-        //float acceleration = 0.4f; // store in MyGame as well?
-        //velocity.y += acceleration;
         //this brings the player down
         Collision collision = null;
         if (MyGame.gravitysideway) collision = MoveUntilCollision(gravityX, 0);
@@ -188,6 +180,11 @@ public class Player : AnimationSprite
                 Box pushee = (Box)collision.other;
                 pushee.Push(velocity.x, 0);
             }
+            else if (collision != null && collision.other is Door)
+            {
+                x += velocity.x;
+                y += velocity.y;
+            }
         }
         else
         {
@@ -206,15 +203,13 @@ public class Player : AnimationSprite
             //x = _position.x;
             //y = _position.y;
         }
-
-        // For efficiency, we put this in player:
-        void OnCollision(GameObject other)
+    }
+    // For efficiency, we put this in player:
+    void OnCollision(GameObject other)
+    {
+        if (other is Box)
         {
-            if (other is Box)
-            {
-                // Might give false positives because of floating point errors!
-                Console.WriteLine("Dead!");
-            }
+            Console.WriteLine("Dead!");
         }
     }
 }

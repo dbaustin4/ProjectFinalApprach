@@ -32,7 +32,5 @@ public class Box : AnimationSprite
         if (MyGame.gravitysideway) collision = MoveUntilCollision(gravityX, 0);
         else collision = MoveUntilCollision(0, gravityY);
     }
-
-    
 }
 
