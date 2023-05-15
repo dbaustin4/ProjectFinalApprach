@@ -11,6 +11,7 @@ public class Box : AnimationSprite
 {
     private bool horizontalOnly;
     private bool verticalOnly;
+    private bool beingPushed = false;
 
     public Box(string filename, int cols, int rows, TiledObject obj) : base(filename, cols, rows, -1, false, true)
     {
@@ -32,6 +33,7 @@ public class Box : AnimationSprite
     {
         if (vx != 0) MoveUntilCollision(vx, 0);
         else MoveUntilCollision(0, vy);
+        beingPushed = true;
     }
 
     void Update()
@@ -44,7 +46,7 @@ public class Box : AnimationSprite
         // For now:
 
         Collision collision = MoveUntilCollision(gravityX, gravityY);
-        if (collision != null && collision.other is Player)
+        if (collision != null && collision.other is Player && !beingPushed)
         {
             MyGame.death = true;
             Player player = (Player)collision.other;
@@ -53,6 +55,8 @@ public class Box : AnimationSprite
             if (player.height < squishSpeed) MyGame.restart = true;
             Console.WriteLine(player.height);
         }
+
+        beingPushed = false;
     }
 }
 
