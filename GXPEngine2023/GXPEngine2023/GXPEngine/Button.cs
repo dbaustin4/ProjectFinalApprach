@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GXPEngine;
-using GXPEngine.Managers;
 using TiledMapParser;
 
 public class Button : AnimationSprite
@@ -30,7 +25,6 @@ public class Button : AnimationSprite
         {
             door.visible = false;
             door.isactive = true;
-            door.collider
         }
     }
 }

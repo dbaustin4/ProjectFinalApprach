@@ -1,13 +1,7 @@
 ﻿using GXPEngine;
 using GXPEngine.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiledMapParser;
-using Physics;
-using System.Drawing;
 
 public class Player : AnimationSprite
 {
@@ -172,8 +166,9 @@ public class Player : AnimationSprite
             {
                 velocity.y -= -_speed;
             }
-            collision = MoveUntilCollision(velocity.x, 0); // move perpendicular to gravity
-            collision = MoveUntilCollision(0, velocity.y); // same shit
+
+            if (!MyGame.gravitysideway) collision = MoveUntilCollision(velocity.x, 0); // move perpendicular to gravity
+            else collision = MoveUntilCollision(0, velocity.y); // same shit
 
             if (collision != null && collision.other is Box)
             {
@@ -207,9 +202,5 @@ public class Player : AnimationSprite
     // For efficiency, we put this in player:
     void OnCollision(GameObject other)
     {
-        if (other is Box)
-        {
-            Console.WriteLine("Dead!");
-        }
     }
 }

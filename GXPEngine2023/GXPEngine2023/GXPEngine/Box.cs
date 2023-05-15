@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TiledMapParser;
 using GXPEngine;
 using GXPEngine.Core;
-using System.Runtime.InteropServices;
 
 public class Box : AnimationSprite
 {

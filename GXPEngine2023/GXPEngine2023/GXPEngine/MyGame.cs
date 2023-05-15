@@ -1,9 +1,6 @@
-using System;                                   // System contains a lot of default C# libraries 
-using GXPEngine;                                // GXPEngine contains the engine
-using System.Drawing;                           // System.Drawing contains drawing tools such as Color definitions
-using System.Reflection.Emit;
+using System;
+using GXPEngine;
 using System.Collections.Generic;
-using System.Security.AccessControl;
 
 public class MyGame : Game {
 

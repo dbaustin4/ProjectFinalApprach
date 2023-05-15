@@ -92,7 +92,7 @@
   <object id="71" type="Box" gid="2" x="256" y="4160" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="13" name="Button" class="Button" opacity="0.8">
-  <object id="77" name="Button1" type="Button" gid="1073741826" x="256" y="3584" width="64" height="64"/>
+  <object id="77" name="Button" type="Button" gid="1073741826" x="256" y="3584" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="14" name="Door" class="Door">
   <object id="78" type="Door" gid="2" x="512" y="3584" width="64" height="64"/>
