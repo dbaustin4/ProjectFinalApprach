@@ -194,7 +194,7 @@ public class Player : AnimationSprite
             else xFlip = true;
         }
         if (!MyGame.gravitysideway) collision = MoveUntilCollision(velocity.x, 0); // move perpendicular to gravity
-        collision = MoveUntilCollision(0, velocity.y); // same shit
+        else collision = MoveUntilCollision(0, velocity.y); // same shit
 
         if (collision != null)
         {

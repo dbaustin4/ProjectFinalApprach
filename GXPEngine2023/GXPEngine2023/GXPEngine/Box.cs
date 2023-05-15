@@ -10,9 +10,21 @@ using System.Runtime.InteropServices;
 
 public class Box : AnimationSprite
 {
+    private bool horizontalOnly;
+    private bool verticalOnly;
+
     public Box(string filename, int cols, int rows, TiledObject obj) : base(filename, cols, rows, -1, false, true)
     {
+        if (obj != null)
+        {
+            horizontalOnly = obj.GetBoolProperty("Horizontal only", false);
+            verticalOnly = obj.GetBoolProperty("Vertical only", false);
 
+            if (horizontalOnly && verticalOnly)
+            {
+                throw new Exception("You cannot set Horizontal only and Vertical only to true");
+            }
+        }
     }
 
     private int squishSpeed = 5;
@@ -27,8 +39,8 @@ public class Box : AnimationSprite
     {
         float gravityX = 0;
         float gravityY = 0;
-        if (!MyGame.gravitysideway) gravityY = MyGame.gravityY;
-        else gravityX = MyGame.gravityX;
+        if (!MyGame.gravitysideway && !horizontalOnly) gravityY = MyGame.gravityY;
+        else if (!verticalOnly) gravityX = MyGame.gravityX;
         // TODO: Get gravity direction... Use gravity (acceleration)
         // For now:
 
