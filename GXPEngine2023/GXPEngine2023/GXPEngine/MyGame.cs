@@ -4,11 +4,14 @@ using System.Collections.Generic;
 
 public class MyGame : Game {
 
-    string levelToLoad = "testmap.tmx";
+    internal static string levelToLoad = "testmap.tmx";
     public string currentLevel;
     internal static bool gravitysideway = false;
     internal static float gravityY = 9.8f;
     internal static float gravityX = 9.8f;
+    internal static bool levelComplete = false;
+    internal static bool death = false;
+    internal static bool restart = false;
 
     //private SoundChannel backgroundMusicSC;
 
@@ -21,9 +24,18 @@ public class MyGame : Game {
 	}
 
 	
-	void Update() {
-
-	}
+	void Update()
+    {
+        if (levelComplete)
+        {
+            LoadLevel(levelToLoad, 0);
+            OnAfterStep += CheckLoadLevel;
+        }
+        if (restart)
+        {
+            ResetCurrentLevel();
+        }
+    }
 
     void DestroyAll()
     {
@@ -56,8 +68,14 @@ public class MyGame : Game {
         //Sound backgroundMusic = new Sound("ping");
         //backgroundMusicSC = backgroundMusic.Play(false, 0, 0.5f, 0);
         levelToLoad = filename;
-        currentLevel = filename;
-    }
+        currentLevel = filename; 
+        gravitysideway = false;
+        gravityY = 9.8f;
+        gravityX = 9.8f;
+        levelComplete = false;
+        death = false;
+        restart = false;
+}
 
     public void ResetCurrentLevel(int currentLevelSoundTrack = 1)
     {
@@ -69,6 +87,12 @@ public class MyGame : Game {
         //    backgroundMusicSC.Stop(); 
         //Sound backgroundMusic = new Sound("ping");
         //backgroundMusicSC = backgroundMusic.Play(false, 0, 0.5f, 0);
+        gravitysideway = false;
+        gravityY = 9.8f;
+        gravityX = 9.8f;
+        levelComplete = false;
+        death = false;
+        restart = false;
     }
 
     static void Main()                          

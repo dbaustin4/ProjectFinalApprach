@@ -9,28 +9,26 @@ using TiledMapParser;
 
 public class Win : AnimationSprite
 {
-    public Vec2 position
+    private int level = 1;
+
+    public Win(TiledObject winObject) : base("barry.png", 7, 1, -1, false, true)
     {
-        get
-        {
-            return _position;
-        }
     }
 
-    Vec2 _position;
-
-
-    public Win(TiledObject winObject) : base("barry.png", 7, 1, -1, false, false)
+    public void WinLevel()
     {
-        if (winObject != null)
+        /*
+        if (level < 3)
         {
-            _position.x = winObject.X;
-            _position.y = winObject.Y;
+            level++;
+            MyGame.levelToLoad = "level" + level + ".tmx";
         }
-    }
+        else MyGame.levelToLoad = "Main_Menu.tmx";
+        */
 
-    void Update()
-    {
+        MyGame.levelToLoad = "Main_Menu.tmx";
 
+        MyGame.levelComplete = true;
+        Console.WriteLine("DONE");
     }
 }
