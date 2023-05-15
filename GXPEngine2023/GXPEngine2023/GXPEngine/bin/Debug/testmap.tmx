@@ -89,7 +89,12 @@
   <object id="3" name="Player" type="Player" x="393.697" y="3866.54" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="12" name="Box" class="Box">
-  <object id="71" type="Box" gid="2" x="256" y="4160" width="64" height="64"/>
+  <object id="71" type="Box" gid="2" x="256" y="4160" width="64" height="64">
+   <properties>
+    <property name="Horizontal only" type="bool" value="false"/>
+    <property name="Vertical only" type="bool" value="false"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="13" name="Button" class="Button" opacity="0.8">
   <object id="77" name="Button" type="Button" gid="1073741826" x="256" y="3584" width="64" height="64"/>

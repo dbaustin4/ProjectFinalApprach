@@ -8,19 +8,16 @@ class Level : GameObject
     public static float cameraX;
     public static float cameraWidth;
 
-    private List<Button> buttons = new List<Button>();
-    private bool allButtonsPressed = false;
-
     Player player;
     TiledLoader loader;
     string currentLevelName;
     public Level(string filename)
     {
-        currentLevelName = filename;
+        currentLevelName = "level1.tmx";
         loader = new TiledLoader(filename);
-        CreateLevel();
+        CreateLevel(filename);
     }
-    void CreateLevel(bool IncludeImageLayer = true)
+    void CreateLevel(string filename)
     {
         loader.rootObject = this;
         loader.addColliders = true;
@@ -36,9 +33,31 @@ class Level : GameObject
             y = 128 - player.y;
         }
 
+        switch (filename)
+        {
+            case "level1.tmx":
+                Camera map1 = new Camera(0, 0, game.width, game.height);
+                map1.SetXY(1185, 722);
+                map1.scale = 1.35f;
+                AddChild(map1);
+                break;
+
+            case "level2.tmx":
+                Camera map2 = new Camera(0, 0, game.width, game.height);
+                map2.SetXY(1220, 689);
+                map2.scale = 1.35f;
+                AddChild(map2);
+                break;
+
+            case "level3.tmx":
+                Camera map3 = new Camera(0, 0, game.width, game.height);
+                map3.SetXY(1075, 645);
+                map3.scale = 1.25f;
+                AddChild(map3);
+                break;
 
 
-
+        }
 
         //y = (game.height - 128) - player.y;
         //x = 128 + player.x;

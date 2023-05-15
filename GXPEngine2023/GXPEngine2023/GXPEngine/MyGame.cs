@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MyGame : Game {
 
-    internal static string levelToLoad = "testmap.tmx";
+    internal static string levelToLoad = "level1.tmx";
     public string currentLevel;
     internal static bool gravitysideway = false;
     internal static float gravityY = 9.8f;
@@ -15,7 +15,7 @@ public class MyGame : Game {
 
     //private SoundChannel backgroundMusicSC;
 
-    public MyGame() : base(1080, 720, false)     
+    public MyGame() : base(1920, 1080, true)     
 	{
         LoadLevel(levelToLoad, 0);
         OnAfterStep += CheckLoadLevel;

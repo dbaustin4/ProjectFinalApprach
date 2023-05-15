@@ -20,10 +20,7 @@ public class Player : AnimationSprite
     private bool xFlip = false;
     private bool yFlip = false;
 
-    //private bool isGravityFlippedY = false;
-    //private bool isGravityFlippedX = false;
-    ////float speedY = 0;
-    ////float speedX = 0;
+    //bool[] gravitySide = new bool[4] { false, false, false, false };
     public Player(TiledObject tiledObjectPlayer = null) : base("barry.png", 7, 1, -1, false, true)
     {
         if (tiledObjectPlayer != null)
@@ -51,42 +48,13 @@ public class Player : AnimationSprite
 
         bool grounded = false;
 
-
-        // example of box interaction, just for downwards gravity:
-        //this brings the player down
         Collision collision = MoveUntilCollision(gravityX, gravityY);
 
-        //not touching anything, could be mid air most probably and jumping down
-        if (collision != null)
-        {
-            grounded = true;
-            velocity.y = 0;
-            y = Mathf.Round(y);
-            if (!MyGame.death) Alive(collision);
-        }
-    }
-
-    void Alive(Collision collision)
-    {
-        if (Input.GetKeyDown(Key.UP))
+        if (Input.GetKey(Key.UP))
         {
             MyGame.gravityY = -Math.Abs(MyGame.gravityY);
             MyGame.gravitysideway = false;
             gravityFlipReverse = true;
-
-            rotation = 180;
-            if (rotation > 180)
-            {
-                rotation -= 5;
-
-                if (rotation < 180) rotation = 180;
-            }
-            else
-            {
-                rotation += 5;
-
-                if (rotation > 180) rotation = 180;
-            }
         }
         if (Input.GetKeyDown(Key.DOWN))
         {
@@ -94,7 +62,6 @@ public class Player : AnimationSprite
             MyGame.gravitysideway = false;
             gravityFlipReverse = false;
 
-            rotation = 0;
             if (rotation > 0 && rotation < 180)
             {
                 rotation -= 5;
@@ -108,13 +75,12 @@ public class Player : AnimationSprite
                 if (rotation < 0 || rotation > 360) rotation = 0;
             }
         }
-        if (Input.GetKeyDown(Key.RIGHT))
+        if (Input.GetKey(Key.RIGHT))
         {
             MyGame.gravityX = Math.Abs(MyGame.gravityX);
             MyGame.gravitysideway = true;
             gravityFlipReverse = false;
 
-            rotation = 270;
             if (rotation > 270 || rotation < 90)
             {
                 rotation -= 5;
@@ -134,7 +100,6 @@ public class Player : AnimationSprite
             MyGame.gravitysideway = true;
             gravityFlipReverse = true;
 
-            rotation = 90;
             if (rotation > 90)
             {
                 rotation -= 5;
@@ -152,6 +117,50 @@ public class Player : AnimationSprite
         if (rotation < 0) rotation = 360 + rotation;
         if (rotation > 360) rotation = rotation - 360;
 
+        foreach (bool gravitySide in new[] {false, false, false, false})
+        {
+            if (x == 0 && Input.GetKey(Key.UP))
+            {
+                if (rotation > 180)
+                {
+                    rotation -= 5;
+
+                    if (rotation < 180) rotation = 180;
+                }
+                else
+                {
+                    rotation += 5;
+
+                    if (rotation > 180) rotation = 180;
+                }
+            }
+            if (x == 1)
+            {
+
+            }
+            if (x == 2)
+            {
+
+            }
+            if (x == 3)
+            {
+
+            }
+        }
+
+
+        if (collision != null)
+        {
+            grounded = true;
+            velocity.y = 0;
+            y = Mathf.Round(y);
+            if (!MyGame.death) Alive(collision);
+        }
+    }
+
+    void Alive(Collision collision)
+    {
+        
 
 
         //movement
