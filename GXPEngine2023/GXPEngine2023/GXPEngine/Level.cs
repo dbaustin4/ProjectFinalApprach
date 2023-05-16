@@ -13,7 +13,7 @@ class Level : GameObject
     string currentLevelName;
     public Level(string filename)
     {
-        currentLevelName = "level1.tmx";
+        currentLevelName = "level3.tmx";
         loader = new TiledLoader(filename);
         CreateLevel(filename);
     }
@@ -70,6 +70,10 @@ class Level : GameObject
         if (player!= null)
         {
             Scrolling();
+        }
+        if (Input.GetKeyDown(Key.R))
+        {
+            MyGame.restart = true;
         }
     }
 

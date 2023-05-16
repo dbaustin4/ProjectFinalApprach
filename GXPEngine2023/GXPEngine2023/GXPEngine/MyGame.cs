@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MyGame : Game {
 
-    internal static string levelToLoad = "level1.tmx";
+    internal static string levelToLoad = "level3.tmx";
     public string currentLevel;
     internal static bool gravitysideway = false;
     internal static float gravityY = 9.8f;
