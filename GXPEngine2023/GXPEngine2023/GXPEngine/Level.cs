@@ -35,21 +35,21 @@ class Level : GameObject
 
         switch (filename)
         {
-            case "level1.tmx":
+            case "level1V2.tmx":
                 Camera map1 = new Camera(0, 0, game.width, game.height);
                 map1.SetXY(1185, 722);
                 map1.scale = 1.35f;
                 AddChild(map1);
                 break;
 
-            case "level2.tmx":
+            case "level2V2.tmx":
                 Camera map2 = new Camera(0, 0, game.width, game.height);
                 map2.SetXY(1220, 689);
                 map2.scale = 1.35f;
                 AddChild(map2);
                 break;
 
-            case "level3.tmx":
+            case "level3V2.tmx":
                 Camera map3 = new Camera(0, 0, game.width, game.height);
                 map3.SetXY(1075, 645);
                 map3.scale = 1.25f;

@@ -1,34 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GXPEngine;
-using Physics;
+﻿using GXPEngine;
 using TiledMapParser;
 
 public class Win : AnimationSprite
 {
     private int level = 1;
+    public bool openDoor;
+    private SoundChannel soundEffectSC;
+    private bool opened = false;
 
-    public Win(TiledObject winObject) : base("barry.png", 7, 1, -1, false, true)
+    public Win(string filename, int cols, int rows, TiledObject winObject) : base(filename, cols, rows, -1, false, true)
     {
+        if (winObject != null)
+        {
+            openDoor = winObject.GetBoolProperty("Door is open", true);
+        }
     }
 
     public void WinLevel()
     {
-        /*
-        if (level < 3)
+        if (openDoor)
         {
-            level++;
-            MyGame.levelToLoad = "level" + level + ".tmx";
+            if (!opened)
+            {
+                Sound soundeffect = new Sound("door_open.wav", false, false);
+                soundEffectSC = soundeffect.Play(false, 0, 0.5f, 0);
+                opened = true;
+            }
+            if (level < 3)
+            {
+                level++;
+                MyGame.levelToLoad = "level" + level + "V2.tmx";
+                //MyGame.BackgroundToLoad = "level" + level + ".mp3";
+            }
+            else MyGame.levelToLoad = "Main_Menu.tmx";
+
+            MyGame.levelComplete = true;
         }
-        else MyGame.levelToLoad = "Main_Menu.tmx";
-        */
-
-        MyGame.levelToLoad = "Main_Menu.tmx";
-
-        MyGame.levelComplete = true;
-        Console.WriteLine("DONE");
     }
 }
