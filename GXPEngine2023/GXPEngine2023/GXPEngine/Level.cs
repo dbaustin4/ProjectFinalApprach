@@ -20,8 +20,9 @@ class Level : GameObject
     void CreateLevel(string filename)
     {
         loader.rootObject = this;
-        loader.addColliders = true;
+        loader.addColliders = false;
         loader.LoadImageLayers();
+        loader.addColliders = true;
         loader.LoadTileLayers(); // maybe do this manually
         loader.autoInstance = true;
         loader.LoadObjectGroups();

@@ -39,7 +39,6 @@ public class Player : AnimationSprite
 
     void Update()
     {
-        Rotate();
         float rotationSpeed = 5.0f;
         float angleDifference = targetRotation - rotation;
 
@@ -104,32 +103,39 @@ public class Player : AnimationSprite
         bool grounded = false;
 
         Collision collision = MoveUntilCollision(gravityX, gravityY);
+        if (collision != null)
+        {
+            if (Input.GetKey(Key.UP))
+            {
+                MyGame.gravityY = -Math.Abs(MyGame.gravityY);
+                MyGame.gravitysideway = false;
+                wGravity = true;
+                gravityFlipReverse = true;
+            }
+            if (Input.GetKeyDown(Key.DOWN))
+            {
+                MyGame.gravityY = Math.Abs(MyGame.gravityY);
+                MyGame.gravitysideway = false;
+                gravityFlipReverse = false;
+            }
+            if (Input.GetKey(Key.RIGHT))
+            {
+                MyGame.gravityX = Math.Abs(MyGame.gravityX);
+                MyGame.gravitysideway = true;
+                gravityFlipReverse = false;
+            }
+            if (Input.GetKeyDown(Key.LEFT))
+            {
+                MyGame.gravityX = -Math.Abs(MyGame.gravityX);
+                MyGame.gravitysideway = true;
+                gravityFlipReverse = true;
+            }
 
-        if (Input.GetKey(Key.UP))
-        {
-            MyGame.gravityY = -Math.Abs(MyGame.gravityY);
-            MyGame.gravitysideway = false;
-            wGravity = true;
-            gravityFlipReverse = true;
+            Rotate();
+            SetCycle(0, 5);
         }
-        if (Input.GetKeyDown(Key.DOWN))
-        {
-            MyGame.gravityY = Math.Abs(MyGame.gravityY);
-            MyGame.gravitysideway = false;
-            gravityFlipReverse = false;
-        }
-        if (Input.GetKey(Key.RIGHT))
-        {
-            MyGame.gravityX = Math.Abs(MyGame.gravityX);
-            MyGame.gravitysideway = true;
-            gravityFlipReverse = false;
-        }
-        if (Input.GetKeyDown(Key.LEFT))
-        {
-            MyGame.gravityX = -Math.Abs(MyGame.gravityX);
-            MyGame.gravitysideway = true;
-            gravityFlipReverse = true;
-        }
+        else SetCycle(5, 10);
+
 
         if (rotation < 0) rotation = 360 + rotation;
         if (rotation > 360) rotation = rotation - 360;
@@ -176,7 +182,6 @@ public class Player : AnimationSprite
         }
         else
         {
-            SetCycle(5, 10);
         }
 
         if (!MyGame.death) Animate(0.25f);

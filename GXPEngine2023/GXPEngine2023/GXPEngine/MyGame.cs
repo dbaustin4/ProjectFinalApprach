@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MyGame : Game {
 
-    internal static string levelToLoad = "level3V2.tmx";
+    internal static string levelToLoad = "level1V2.tmx";
     internal static string BackgroundToLoad = "Background.mp3";
     public string currentLevel;
     internal static bool gravitysideway = false;

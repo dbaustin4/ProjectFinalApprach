@@ -53,10 +53,6 @@ public class Box : AnimationSprite
             Console.WriteLine(player.height);
             SoundEffect(1);
         }
-        else if (collision != null && !beingPushed) 
-        {
-            SoundEffect(2);
-        }
         else if (collision == null)
         {
             SoundEffect(0);
