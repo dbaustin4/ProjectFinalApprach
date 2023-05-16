@@ -80,7 +80,7 @@
   </object>
  </objectgroup>
  <objectgroup id="16" name="Gate">
-  <object id="81" class="Door" gid="20" x="1152" y="384" width="64" height="192"/>
+  <object id="81" class="Door" gid="20" x="1088" y="384" width="64" height="192"/>
  </objectgroup>
  <objectgroup id="17" name="Lever">
   <object id="82" class="DoorKey" gid="21" x="1280" y="384" width="128" height="192"/>
