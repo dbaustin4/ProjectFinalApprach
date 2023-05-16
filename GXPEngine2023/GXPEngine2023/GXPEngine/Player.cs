@@ -184,7 +184,7 @@ public class Player : AnimationSprite
             else xFlip = false;
         }
         if (Input.GetKey(Key.S) && MyGame.gravitysideway)
-        {
+        {   
             velocity.y -= -_speed;
             if (gravityFlipReverse) xFlip = false;
             else xFlip = true;
@@ -217,6 +217,7 @@ public class Player : AnimationSprite
     // For efficiency, we put this in player:
     void OnCollision(GameObject other)
     {
+        Console.WriteLine(other);
         if (other is Box)
         {
             // Might give false positives because of floating point errors!
@@ -233,6 +234,12 @@ public class Player : AnimationSprite
         {
             Win win = (Win)other;
             win.WinLevel();
+        }
+        if (other is DoorKey)
+        {
+            Win win = (Win)game.FindObjectOfType(typeof(Win));
+            win.openDoor = true;
+            other.LateDestroy();
         }
     }
 }

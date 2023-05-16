@@ -15,7 +15,7 @@ public class MyGame : Game {
 
     //private SoundChannel backgroundMusicSC;
 
-    public MyGame() : base(1920, 1080, true)     
+    public MyGame() : base(1920, 1080, false)     
 	{
         LoadLevel(levelToLoad, 0);
         OnAfterStep += CheckLoadLevel;
@@ -31,7 +31,7 @@ public class MyGame : Game {
             LoadLevel(levelToLoad, 0);
             OnAfterStep += CheckLoadLevel;
         }
-        if (restart)
+        if (restart || Input.GetKeyDown(Key.R))
         {
             ResetCurrentLevel();
         }
