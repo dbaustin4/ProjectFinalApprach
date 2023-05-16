@@ -39,6 +39,15 @@ public class Player : AnimationSprite
         float rotationSpeed = 5.0f;
         float angleDifference = targetRotation - rotation;
 
+        if (angleDifference > 180)
+        {
+            angleDifference -= 360;
+        }
+        else if (angleDifference < -180)
+        {
+            angleDifference += 360;
+        }
+
         if (angleDifference != 0.0f)
         {
             float rotationStep = Mathf.Sign(angleDifference) * rotationSpeed;
