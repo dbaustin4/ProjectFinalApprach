@@ -20,16 +20,18 @@ public class Player : AnimationSprite
     private bool xFlip = false;
     private bool yFlip = false;
 
+    private SoundChannel soundEffectSC;
+    private bool deathSoundEffect = false;
+
     //bool[] gravitySide = new bool[4] { false, false, false, false };
-    public Player(TiledObject tiledObjectPlayer = null) : base("barry.png", 7, 1, -1, false, true)
+    public Player(TiledObject tiledObjectPlayer = null) : base("SpriteSheetCharacter.png", 10, 5, -1, false, true)
     {
         if (tiledObjectPlayer != null)
         {
             //_position.x = tiledObjectPlayer.X + 32;
             //_position.y = tiledObjectPlayer.Y + 32;
         }
-        SetCycle(0, 3);
-
+        SetCycle(0, 5);
     }
 
     void Update()
@@ -117,37 +119,6 @@ public class Player : AnimationSprite
         if (rotation < 0) rotation = 360 + rotation;
         if (rotation > 360) rotation = rotation - 360;
 
-        foreach (bool gravitySide in new[] {false, false, false, false})
-        {
-            if (x == 0 && Input.GetKey(Key.UP))
-            {
-                if (rotation > 180)
-                {
-                    rotation -= 5;
-
-                    if (rotation < 180) rotation = 180;
-                }
-                else
-                {
-                    rotation += 5;
-
-                    if (rotation > 180) rotation = 180;
-                }
-            }
-            if (x == 1)
-            {
-
-            }
-            if (x == 2)
-            {
-
-            }
-            if (x == 3)
-            {
-
-            }
-        }
-
 
         if (collision != null)
         {
@@ -155,7 +126,15 @@ public class Player : AnimationSprite
             velocity.y = 0;
             y = Mathf.Round(y);
             if (!MyGame.death) Alive(collision);
+            else SetCycle(39, 10);
         }
+        else
+        {
+            SetCycle(5, 10);
+        }
+
+        if (!MyGame.death) Animate(0.25f);
+        else Animate(0.4f);
     }
 
     void Alive(Collision collision)
@@ -222,9 +201,10 @@ public class Player : AnimationSprite
         {
             // Might give false positives because of floating point errors!
             Box pushee = (Box)other;
-            pushee.Push(velocity.x, velocity.y);
-
+            pushee.Push(velocity.x, velocity.y); 
+            SetCycle(32, 7);
         }
+        else SetCycle(14, 17);
         if (other is Door)
         {
             x += velocity.x;

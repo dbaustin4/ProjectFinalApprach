@@ -13,6 +13,9 @@ public class Box : AnimationSprite
     private bool verticalOnly;
     private bool beingPushed = false;
 
+    SoundChannel soundChannel;
+    private bool[] soundCheck = new bool[] { false, false, false };
+
     public Box(string filename, int cols, int rows, TiledObject obj) : base(filename, cols, rows, -1, false, true)
     {
         if (obj != null)
@@ -29,13 +32,6 @@ public class Box : AnimationSprite
 
     private int squishSpeed = 5;
 
-    public void Push(float vx, float vy)
-    {
-        if (vx != 0) MoveUntilCollision(vx, 0);
-        else MoveUntilCollision(0, vy);
-        beingPushed = true;
-    }
-
     void Update()
     {
         float gravityX = 0;
@@ -48,15 +44,62 @@ public class Box : AnimationSprite
         Collision collision = MoveUntilCollision(gravityX, gravityY);
         if (collision != null && collision.other is Player && !beingPushed)
         {
+            Sound soundeffect = new Sound("crushed.wav", false, false);
             MyGame.death = true;
             Player player = (Player)collision.other;
             player.height -= squishSpeed;
 
             if (player.height < squishSpeed) MyGame.restart = true;
             Console.WriteLine(player.height);
+            SoundEffect(1);
+        }
+        else if (collision != null && !beingPushed) 
+        {
+            SoundEffect(2);
+        }
+        else if (collision == null)
+        {
+            SoundEffect(0);
         }
 
         beingPushed = false;
+    }
+
+    public void Push(float vx, float vy)
+    {
+        if (vx != 0) MoveUntilCollision(vx, 0);
+        else MoveUntilCollision(0, vy);
+        beingPushed = true;
+        SoundEffect(0);
+    }
+
+    public void SoundEffect(int soundnumber = 0)
+    {            
+        string[] filename = new string[] { "moving_block.wav", "crushed.wav", "thud.wav" };
+        Sound sound = new Sound(filename[soundnumber]);
+        if (!soundCheck[0])
+        {
+            soundChannel = sound.Play(false, 0, 0.1f, 0);
+            soundCheck[0] = true;
+        }
+        if (!soundCheck[1] && soundnumber == 1)
+        {
+            soundChannel = sound.Play(false, 0, 0.8f, 0);
+            soundCheck[1] = true;
+        }
+        if (!soundCheck[2] && soundnumber == 2)
+        {
+            soundChannel = sound.Play(false, 0, 0.5f, 0);
+            soundCheck[2] = true;
+        }
+        
+        if (!soundChannel.IsPlaying)
+        {
+            for (int i = 0; i < soundCheck.Length; i++)
+            {
+                soundCheck[i] = false;
+            }
+        }
     }
 }
 
