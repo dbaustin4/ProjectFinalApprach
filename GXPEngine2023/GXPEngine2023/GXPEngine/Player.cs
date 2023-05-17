@@ -105,34 +105,53 @@ public class Player : AnimationSprite
         Collision collision = MoveUntilCollision(gravityX, gravityY);
         if (collision != null)
         {
-            if (Input.GetKey(Key.UP))
+            if (collision.other is Door)
             {
-                MyGame.gravityY = -Math.Abs(MyGame.gravityY);
-                MyGame.gravitysideway = false;
-                wGravity = true;
-                gravityFlipReverse = true;
-                UnstuckCheck();
+                Door door = (Door)collision.other;
+                if (door.isactive)
+                {
+                    x += gravityX;
+                    y += gravityY;
+                }
             }
-            if (Input.GetKeyDown(Key.DOWN))
+            else
             {
-                MyGame.gravityY = Math.Abs(MyGame.gravityY);
-                MyGame.gravitysideway = false;
-                gravityFlipReverse = false;
-                UnstuckCheck();
-            }
-            if (Input.GetKey(Key.RIGHT))
-            {
-                MyGame.gravityX = Math.Abs(MyGame.gravityX);
-                MyGame.gravitysideway = true;
-                gravityFlipReverse = false;
-                UnstuckCheck();
-            }
-            if (Input.GetKeyDown(Key.LEFT))
-            {
-                MyGame.gravityX = -Math.Abs(MyGame.gravityX);
-                MyGame.gravitysideway = true;
-                gravityFlipReverse = true;
-                UnstuckCheck();
+                if (collision.other is DoorKey)
+                {
+                    Win win = (Win)game.FindObjectOfType(typeof(Win));
+                    win.openDoor = true;
+                    DoorKey doorkey = (DoorKey)collision.other;
+                    doorkey.SetFrame(1);
+                }
+                if (Input.GetKey(Key.UP))
+                {
+                    MyGame.gravityY = -Math.Abs(MyGame.gravityY);
+                    MyGame.gravitysideway = false;
+                    wGravity = true;
+                    gravityFlipReverse = true;
+                    UnstuckCheck();
+                }
+                if (Input.GetKeyDown(Key.DOWN))
+                {
+                    MyGame.gravityY = Math.Abs(MyGame.gravityY);
+                    MyGame.gravitysideway = false;
+                    gravityFlipReverse = false;
+                    UnstuckCheck();
+                }
+                if (Input.GetKey(Key.RIGHT))
+                {
+                    MyGame.gravityX = Math.Abs(MyGame.gravityX);
+                    MyGame.gravitysideway = true;
+                    gravityFlipReverse = false;
+                    UnstuckCheck();
+                }
+                if (Input.GetKeyDown(Key.LEFT))
+                {
+                    MyGame.gravityX = -Math.Abs(MyGame.gravityX);
+                    MyGame.gravitysideway = true;
+                    gravityFlipReverse = true;
+                    UnstuckCheck();
+                }
             }
 
             Rotate();
@@ -225,15 +244,15 @@ public class Player : AnimationSprite
         }
         if (!MyGame.gravitysideway) collision = MoveUntilCollision(velocity.x, 0); // move perpendicular to gravity
         else collision = MoveUntilCollision(0, velocity.y); // same shit
+        Collision groundcheck = MoveUntilCollision(0, 0.1f);
+
 
         if (collision != null)
         {
             OnCollision(collision.other);
         }
-        else
-        {
-            velocity.x = 0;
-        }
+        else velocity.x = 0;
+        if (groundcheck != null) OnCollision(groundcheck.other);
 
         // finally:
         //UpdateScreenPosition();
@@ -261,8 +280,12 @@ public class Player : AnimationSprite
         else SetCycle(14, 17);
         if (other is Door)
         {
-            x += velocity.x;
-            y += velocity.y;
+            Door door = (Door)other;
+            if (door.isactive)
+            {
+                x += velocity.x;
+                y += velocity.y;
+            }
         }
         if (other is Win)
         {

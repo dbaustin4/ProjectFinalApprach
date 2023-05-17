@@ -14,6 +14,7 @@ public class Door : AnimationSprite
     {
         if (isactive)
         {
+            
         }
         else
         {

@@ -15,8 +15,8 @@ public class Button : AnimationSprite
 
         if (game.FindObjectOfType(typeof(Door)) != null) door = (Door)game.FindObjectOfType(typeof(Door));
         else throw new Exception("You cannot create buttons without a door");
-        door.isactive = false;
-
+        //door.isactive = false;
+        //door.visible = true;
     }
 
     void OnCollision(GameObject other)
