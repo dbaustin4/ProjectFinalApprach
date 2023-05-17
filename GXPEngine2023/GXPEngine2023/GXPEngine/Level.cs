@@ -38,22 +38,22 @@ class Level : GameObject
         {
             case "level1V2.tmx":
                 Camera map1 = new Camera(0, 0, game.width, game.height);
-                map1.SetXY(925, 580);
-                map1.scale = 1.05f;
+                map1.SetXY(1175, 720);
+                map1.scale = 1.35f;
                 AddChild(map1);
                 break;
 
             case "level2V2.tmx":
                 Camera map2 = new Camera(0, 0, game.width, game.height);
-                map2.SetXY(960, 550);
-                map2.scale = 1;
+                map2.SetXY(1190, 675);
+                map2.scale = 1.25f;
                 AddChild(map2);
                 break;
 
             case "level3V2.tmx":
                 Camera map3 = new Camera(0, 0, game.width, game.height);
-                map3.SetXY(830, 515);
-                map3.scale = 0.93f;
+                map3.SetXY(1100, 655);
+                map3.scale = 1.35f;
                 AddChild(map3);
                 break;
 
