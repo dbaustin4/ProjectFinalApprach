@@ -27,7 +27,6 @@ public class MyGame : Game {
 	
 	void Update()
     {
-        Console.WriteLine("hello");
         if (levelComplete)
         {
             LoadLevel(levelToLoad, 0);

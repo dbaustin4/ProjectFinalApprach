@@ -50,7 +50,6 @@ public class Box : AnimationSprite
             player.height -= squishSpeed;
 
             if (player.height < squishSpeed) MyGame.restart = true;
-            Console.WriteLine(player.height);
             SoundEffect(1);
         }
         else if (collision == null)

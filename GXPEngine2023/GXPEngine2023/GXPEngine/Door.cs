@@ -14,7 +14,6 @@ public class Door : AnimationSprite
     {
         if (isactive)
         {
-            Console.WriteLine(isactive);
         }
         else
         {

@@ -111,24 +111,28 @@ public class Player : AnimationSprite
                 MyGame.gravitysideway = false;
                 wGravity = true;
                 gravityFlipReverse = true;
+                UnstuckCheck();
             }
             if (Input.GetKeyDown(Key.DOWN))
             {
                 MyGame.gravityY = Math.Abs(MyGame.gravityY);
                 MyGame.gravitysideway = false;
                 gravityFlipReverse = false;
+                UnstuckCheck();
             }
             if (Input.GetKey(Key.RIGHT))
             {
                 MyGame.gravityX = Math.Abs(MyGame.gravityX);
                 MyGame.gravitysideway = true;
                 gravityFlipReverse = false;
+                UnstuckCheck();
             }
             if (Input.GetKeyDown(Key.LEFT))
             {
                 MyGame.gravityX = -Math.Abs(MyGame.gravityX);
                 MyGame.gravitysideway = true;
                 gravityFlipReverse = true;
+                UnstuckCheck();
             }
 
             Rotate();
@@ -247,7 +251,6 @@ public class Player : AnimationSprite
     // For efficiency, we put this in player:
     void OnCollision(GameObject other)
     {
-        Console.WriteLine(other);
         if (other is Box)
         {
             // Might give false positives because of floating point errors!
@@ -270,7 +273,23 @@ public class Player : AnimationSprite
         {
             Win win = (Win)game.FindObjectOfType(typeof(Win));
             win.openDoor = true;
-            other.LateDestroy();
+            DoorKey doorkey = (DoorKey)other;
+            doorkey.SetFrame(1);
+        }
+    }
+
+    void UnstuckCheck()
+    {
+        Collision collision = MoveUntilCollision(0.1f, 0.1f);
+        if (collision != null ) 
+        {
+            x -= collision.point.x;
+            y -= collision.point.y;
+        }
+        else
+        {
+            x -= 0.1f;
+            y -= 0.1f;
         }
     }
 }

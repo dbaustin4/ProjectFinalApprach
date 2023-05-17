@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="26" height="16" tilewidth="64" tileheight="64" infinite="0" nextlayerid="21" nextobjectid="93">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="26" height="16" tilewidth="64" tileheight="64" infinite="0" nextlayerid="21" nextobjectid="94">
  <tileset firstgid="1" name="checkers" tilewidth="64" tileheight="64" spacing="48" tilecount="1" columns="1">
   <image source="checkers.png" width="64" height="64"/>
  </tileset>
@@ -57,32 +57,32 @@
 </data>
  </layer>
  <objectgroup id="14" name="lever">
-  <object id="83" class="DoorKey" gid="21" x="1472" y="960" width="128" height="192"/>
+  <object id="93" type="DoorKey" x="1472" y="768" width="128" height="192"/>
  </objectgroup>
  <objectgroup id="15" name="Exit">
-  <object id="85" class="Win" gid="18" x="1408" y="512" width="192" height="64">
+  <object id="85" type="Win" gid="18" x="1408" y="512" width="192" height="64">
    <properties>
     <property name="Door is open" type="bool" value="false"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="5" name="Player" class="Player" opacity="0.99">
-  <object id="3" name="Player" class="Player" x="959.03" y="803.39" width="148.848" height="151.879" rotation="90"/>
+  <object id="3" name="Player" type="Player" x="959.03" y="803.39" width="148.848" height="151.879" rotation="90"/>
  </objectgroup>
  <objectgroup id="13" name="Box" offsetx="-0.363648" offsety="-0.666667">
-  <object id="80" class="Box" gid="3" x="448" y="960" width="128" height="128">
+  <object id="80" type="Box" gid="3" x="448" y="960" width="128" height="128">
    <properties>
     <property name="Horizontal only" type="bool" value="false"/>
     <property name="Vertical only" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="81" class="Box" gid="4" x="960" y="192" width="128" height="128">
+  <object id="81" type="Box" gid="4" x="960" y="192" width="128" height="128">
    <properties>
     <property name="Horizontal only" type="bool" value="true"/>
     <property name="Vertical only" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="82" class="Box" gid="5" x="1216" y="960" width="128" height="128">
+  <object id="82" type="Box" gid="5" x="1216" y="960" width="128" height="128">
    <properties>
     <property name="Horizontal only" type="bool" value="false"/>
     <property name="Vertical only" type="bool" value="false"/>
@@ -90,9 +90,9 @@
   </object>
  </objectgroup>
  <objectgroup id="16" name="Button">
-  <object id="89" class="Button" gid="19" x="194" y="192" width="128" height="128"/>
-  <object id="90" class="Button" gid="19" x="320" y="192" width="128" height="128"/>
-  <object id="91" class="Button" gid="19" x="448" y="192" width="128" height="128"/>
+  <object id="89" type="Button" gid="19" x="194" y="192" width="128" height="128"/>
+  <object id="90" type="Button" gid="19" x="320" y="192" width="128" height="128"/>
+  <object id="91" type="Button" gid="19" x="448" y="192" width="128" height="128"/>
  </objectgroup>
  <layer id="18" name="barrier" width="26" height="16">
   <data encoding="csv">
@@ -115,6 +115,6 @@
 </data>
  </layer>
  <objectgroup id="19" name="Barrier">
-  <object id="92" class="Door" gid="20" x="1344" y="960.667" width="256.667" height="256.667"/>
+  <object id="92" type="Door" gid="20" x="1344" y="960.667" width="256.667" height="256.667"/>
  </objectgroup>
 </map>

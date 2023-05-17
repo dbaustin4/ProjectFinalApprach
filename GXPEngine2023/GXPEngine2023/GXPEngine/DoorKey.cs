@@ -8,8 +8,8 @@ using TiledMapParser;
 
 public class DoorKey : AnimationSprite
 {
-    public DoorKey(string filename, int cols, int rows, TiledObject keyObject) : base(filename, cols, rows, -1, false, true)
+    public DoorKey(TiledObject keyObject) : base("lever_spritesheet.png", 2, 1, -1, false, true)
     {
-
+        SetFrame(0);
     }
 }
